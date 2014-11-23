@@ -14,7 +14,7 @@ def get_sequence(db, query_key, web_env):
 
 
 def search(term):
-    db = 'protein'
+    db = 'nucleotide'
     terms = '?db={0}&term={1}&retmax=1&usehistory=y'.format(db, term)
     url = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi/{0}'.format(terms)
     response = requests.get(url)
