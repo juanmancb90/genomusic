@@ -4,19 +4,23 @@
 <div class="search-container">
 	<h3>Protein Name: </h3>
 	<input type="text" name="protein" id="protein" >
-	<button id="sequence" type="submit">Play!</button>
+	<button id="sequence" type="button">Play!</button>
 </div>
 <canvas id="canvas">Sorry, your browser does not support Canvas :(</canvas>
+{% csrf_token %}
 <script type="text/javascript">
 	$("#sequence").click(function(){
-	  $.post("{% url "get_sequence" %}",
-	    {
-	      name:$("#protein").val(),
-	      db:"nucleotide"
-	    },
-	    function(data,status){
-	      alert("Data: " + data + "\nStatus: " + status);
-	    });
+		$.ajax({
+			url : "{% url "search_sequence" %}",
+		  	type: "POST",
+		  	data : {name: $("#protein").val(), db: "nucleotide", csrfmiddlewaretoken: $('[name="csrfmiddlewaretoken"]').val(), },
+		  	dataType : "json",
+		  	success: function( data ){
+	      		console.log( data )
+	      		alert( data )
+		  	}
+		});
 	});
+
 </script>
 {% endblock %}

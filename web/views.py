@@ -1,6 +1,3 @@
-# Python Modules
-import json
-
 # Django Modules
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseBadRequest
@@ -19,5 +16,4 @@ def search_sequence(request):
     db = request.POST.get('db', None)
     if name is None or db is None:
         return HttpResponseBadRequest('error')
-    data = json.dumps(search(name, db))
-    return HttpResponse(data)
+    return HttpResponse(search(name, db))

@@ -1,0 +1,1 @@
+web: gunicorn genomusic.wsgi --log-file -

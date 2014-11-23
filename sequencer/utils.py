@@ -2,13 +2,14 @@
 import requests
 import xmltodict
 import urllib
+import json
 
 
 def get_sequence(db, query_key, web_env):
     terms = '?db={0}&query_key={1}&WebEnv={2}&rettype=fasta&retmode=text&retmax=1'.format(db, query_key, web_env)
     url = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi/{0}'.format(terms)
     response = urllib.request.urlopen(url)
-    return response.readlines()
+    return json.dumps([x.decode("utf-8") for x in response.readlines()])
 
 
 def search(term, db):
