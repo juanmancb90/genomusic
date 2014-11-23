@@ -1,30 +1,33 @@
 import random
 
-from musical.note import Note
-from musical.scale import Scale
-from musical.audio import save
+from music.note import Note
+from music.scale import Scale
+from music import save
 
 from .timeline import Hit, Timeline
 
 
 def sampler(data, name):
     genome = [x.replace('\n', '').replace(' ', '') for x in data]
+    genome.pop(0)
     numbers = []
-
+    genome = ''.join(genome)
     for g in genome:
         if g == 'A':
             numbers.append(-2)
 
-        if g == 'C':
+        elif g == 'C':
             numbers.append(-1)
 
-        if g == 'G':
+        elif g == 'G':
             numbers.append(1)
 
-        if g == 'T':
+        elif g == 'T':
             numbers.append(2)
+        else:
+            numbers.append(1)
 
-      # Define key and scale
+    # Define key and scale
     key = Note('C4')
     scale = Scale(key, 'phrygian')
     time = 0.0  # Keep track of currect note placement time in seconds
@@ -63,6 +66,6 @@ def sampler(data, name):
 
         print("Exporting audio...")
 
-        save.save_wave(data, 'media/music/{0}.mp3'.format(name), rate=44100)
-        open('media/txt/{0}.txt'.format(name), 'w').write('\n'.join(ardu_time))
-        return ('media/music/{0}.mp3'.format(name), 'media/txt/{0}.txt'.format(name))
+    save.save_wave(data, 'media/music/{0}.mp3'.format(name), rate=44100)
+    open('media/txt/{0}.txt'.format(name), 'w').write('\n'.join(ardu_time))
+    return ('media/music/{0}.mp3'.format(name), 'media/txt/{0}.txt'.format(name))

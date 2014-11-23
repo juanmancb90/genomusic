@@ -1,7 +1,7 @@
 # Python Modules
 import requests
 import xmltodict
-import urllib
+import urllib2
 
 # Django Modules
 from django.utils.text import slugify
@@ -13,7 +13,7 @@ from music.generator import sampler
 def get_sequence(db, query_key, web_env):
     terms = '?db={0}&query_key={1}&WebEnv={2}&rettype=fasta&retmode=text&retmax=1'.format(db, query_key, web_env)
     url = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi/{0}'.format(terms)
-    response = urllib.request.urlopen(url)
+    response = urllib2.urlopen(url)
     return [x.decode("utf-8") for x in response.readlines()]
 
 

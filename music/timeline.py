@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-from musical.audio import source
+from music import source
 
 # XXX: Early implementation of timeline/hit concepts. Needs lots of work
 
@@ -60,4 +60,3 @@ class Timeline:
         data = hit.render()
         out[index:index + len(data)] += data
     return out
-

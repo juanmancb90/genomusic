@@ -1,4 +1,4 @@
-from musical.note import Note
+from music.note import Note
 import itertools
 
 # TODO: Non-rooted scales? (just hold intervals and apply root later on)

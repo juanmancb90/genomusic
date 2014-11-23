@@ -25,6 +25,4 @@ def search(term):
     return genome
 
 if __name__ == '__main__':
-    print('Organism Name: \n')
-    term = input()
-    print(search(term))
+    print(search('ecoli'))
