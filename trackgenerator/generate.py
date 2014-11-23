@@ -25,7 +25,7 @@ for g in genome:
 key = Note('C4')
 scale = Scale(key, 'phrygian')
 time = 0.0 # Keep track of currect note placement time in seconds
-ardu_time = [str(time*1000)]
+ardu_time = []
 
 timeline = Timeline()
 
@@ -44,7 +44,7 @@ for i in xrange(len(genome)):
   length = random.choice((0.125, 0.125, 0.25))
   timeline.add(time, Hit(note, length + 0.125))
   time += length
-  ardu_time.append(str(time*1000))
+  ardu_time.append(str(length*1000))
 
 # Resolve
 note = scale.transpose(key, random.choice((-1, 1, 4)))
