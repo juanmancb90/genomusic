@@ -10,7 +10,7 @@ def get_sequence(db, query_key, web_env):
     terms = '?db={0}&query_key={1}&WebEnv={2}&rettype=fasta&retmode=text&retmax=1'.format(db, query_key, web_env)
     url = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi/{0}'.format(terms)
     response = urllib.request.urlopen(url)
-    return response.text
+    return response.read()
 
 
 def search(term):
