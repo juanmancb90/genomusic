@@ -1,11 +1,11 @@
 import random
 
 from musical.theory import Note, Scale
-from musical.audio import effect, playback, save
+from musical.audio import save
 
 from timeline import Hit, Timeline
 
-genome = list(open('genome.csv','r').read().replace('\n','').replace(' ',''))
+genome = list(open('genome.csv', 'r').read().replace('\n', '').replace(' ', ''))
 numbers = []
 
 for g in genome:
@@ -51,18 +51,18 @@ note = scale.transpose(key, random.choice((-1, 1, 4)))
 timeline.add(time, Hit(note, 0.75))     # Tension
 timeline.add(time + 0.5, Hit(key, 4.0)) # Resolution
 
-print "Rendering audio..."
+print("Rendering audio...")
 
 data = timeline.render()
 
-print "Applying Chorus effect..."
+print("Applying Chorus effect...")
 
 #data = effect.chorus(data, freq=3.14159)
 # Reduce volume to 50%
 data = data * 0.5
 
-print "Exporting audio..."
+print("Exporting audio...")
 
 save.save_wave(data, 'music.mp3', rate=44100)
 open('timeduino.txt','w').write('\n'.join(ardu_time))
-print "Done!"
+print("Done!")
