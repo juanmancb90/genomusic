@@ -1,14 +1,10 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% block body %}
-<div class="row">
-	<div class="col-md-12">
-		<div class="search-container">
-			<h3>Protein Name: </h3>
-			<input type="text" name="protein" >
-			<button type="submit">Play!</button>
-			<canvas id="canvas">Sorry, your browser does not support Canvas :(</canvas>
-		</div>
-	</div>
+<div class="search-container">
+	<h3>Protein Name: </h3>
+	<input type="text" name="protein" >
+	<button type="submit">Play!</button>
 </div>
+<canvas id="canvas">Sorry, your browser does not support Canvas :(</canvas>
 {% endblock %}
