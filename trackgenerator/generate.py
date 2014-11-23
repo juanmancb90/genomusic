@@ -1,31 +1,68 @@
-import numpy as np, pylab
-from pydub import AudioSegment
+import random
 
+from musical.theory import Note, Scale
+from musical.audio import effect, playback, save
 
-speed = 100
-nucleotids = ['A','C','G','T']
-aminoacids = 'A R N D C Q E G H I L K M F P S T W Y V START STOP'.split(' ')
+from timeline import Hit, Timeline
 
-genome = list(open('genome.csv','r').read().replace('\n','').replace(' ',''))[:999]
-aminos = open('amino.csv','r').read().split(',')[:-1][:333]
-
-g_sound = [AudioSegment.from_file('./g_sounds/'+str(i+1)+'.wav',format='wav')[:speed] for i in range(4)]
-a_sound = [AudioSegment.from_file('./a_sounds/'+str(i+1)+'.wav',format='wav')[:speed] for i in range(22)]
-
-g_song = AudioSegment.silent(duration=speed)
-a_song = AudioSegment.silent(duration=speed)
+genome = list(open('genome.csv','r').read().replace('\n','').replace(' ',''))
+numbers = []
 
 for g in genome:
-    g_song += g_sound[nucleotids.index(g)]
-    print g,
+    if g == 'A':
+        numbers.append(-2)
 
-for a in aminos:
-    a_song += a_sound[aminoacids.index(a)]
-    a_song += a_sound[(aminoacids.index(a)-1) % 22]
-    a_song += a_sound[(aminoacids.index(a)+1) % 22]
-    print a,
+    if g == 'C':
+        numbers.append(-1)
 
-g_song = g_song.apply_gain(+10.0)
-song = a_song.overlay(g_song)
+    if g == 'G':
+        numbers.append(1)
 
-song.export('song.mp3',format='mp3')
+    if g == 'T':
+        numbers.append(2)
+
+# Define key and scale
+key = Note('C4')
+scale = Scale(key, 'phrygian')
+time = 0.0 # Keep track of currect note placement time in seconds
+ardu_time = [str(time*1000)]
+
+timeline = Timeline()
+
+note = key
+
+# Semi-randomly queue notes from the scale
+for i in xrange(len(genome)):
+  if note.index > 50 or note.index < 24:
+    # If note goes out of comfort zone, randomly place back at base octave
+    note = scale.get((numbers[i]+2) * 2)
+    note = note.at_octave(key.octave)
+  else:
+    # Transpose the note by some small random interval
+    note = scale.transpose(note, numbers[i])
+
+  length = random.choice((0.125, 0.125, 0.25))
+  timeline.add(time, Hit(note, length + 0.125))
+  time += length
+  ardu_time.append(str(time*1000))
+
+# Resolve
+note = scale.transpose(key, random.choice((-1, 1, 4)))
+timeline.add(time, Hit(note, 0.75))     # Tension
+timeline.add(time + 0.5, Hit(key, 4.0)) # Resolution
+
+print "Rendering audio..."
+
+data = timeline.render()
+
+print "Applying Chorus effect..."
+
+#data = effect.chorus(data, freq=3.14159)
+# Reduce volume to 50%
+data = data * 0.5
+
+print "Exporting audio..."
+
+save.save_wave(data, 'music.mp3', rate=44100)
+open('timeduino.txt','w').write('\n'.join(ardu_time))
+print "Done!"
