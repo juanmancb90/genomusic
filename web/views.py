@@ -7,10 +7,9 @@ def index(request):
 
 def get_protein(request):
     """
-     query_key y webenv:
+    tomar query_key y webenv:
 
     http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi/?db=<PROTEIN o NUCLEOTIDE>&term=<NOMBRE DE LA PROTEINA>&retmax=1&usehistory=y
     eutils.ncbi.nlm.nih.gov
     eutils.ncbi.nlm.nih.gov
     """
-    pass

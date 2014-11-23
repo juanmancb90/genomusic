@@ -12,11 +12,14 @@ def get_genome(id):
 
 
 def search(search_term):
-    url = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=genome&term='
+    db = 'protein'
+    term = 'canis familiaris'
+    terms = '?db={0}&term={1}&retmax=1&usehistory=y'.format(db, term)
+    url = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi/{0}'.format(terms)
     request = requests.get('{0}{1}'.format(url, search_term))
     xml = xmltodict.parse(request.text)
-    genome = get_genome(xml['eSearchResult']['IdList']['Id'])
-    return genome
+    # genome = get_genome(xml['eSearchResult']['IdList']['Id'])
+    return xml
 
 if __name__ == '__main__':
     print('Organism Name: \n')
