@@ -6,7 +6,7 @@ from musical.audio import save
 from timeline import Hit, Timeline
 
 
-def generate(data, name):
+def sampler(data, name):
     genome = [x.replace('\n', '').replace(' ', '') for x in data]
     numbers = []
 
@@ -47,7 +47,7 @@ def generate(data, name):
         time += length
         ardu_time.append(str(time*1000))
 
-      # Resolve
+        # Resolve
         note = scale.transpose(key, random.choice((-1, 1, 4)))
         timeline.add(time, Hit(note, 0.75))  # Tension
         timeline.add(time + 0.5, Hit(key, 4.0))  # Resolution
@@ -63,4 +63,5 @@ def generate(data, name):
         print("Exporting audio...")
 
         save.save_wave(data, 'media/music/{0}.mp3'.format(name), rate=44100)
-        open('media/txt/timeduino.txt', 'w').write('\n'.join(ardu_time))
+        open('media/txt/{0}.txt'.format(name), 'w').write('\n'.join(ardu_time))
+        return ('media/music/{0}.mp3'.format(name), 'media/txt/{0}.txt'.format(name))
