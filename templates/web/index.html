@@ -3,8 +3,20 @@
 {% block body %}
 <div class="search-container">
 	<h3>Protein Name: </h3>
-	<input type="text" name="protein" >
-	<button type="submit">Play!</button>
+	<input type="text" name="protein" id="protein" >
+	<button id="sequence" type="submit">Play!</button>
 </div>
 <canvas id="canvas">Sorry, your browser does not support Canvas :(</canvas>
+<script type="text/javascript">
+	$("#sequence").click(function(){
+	  $.post("{% url "get_sequence" %}",
+	    {
+	      name:$("#protein").val(),
+	      db:"nucleotide"
+	    },
+	    function(data,status){
+	      alert("Data: " + data + "\nStatus: " + status);
+	    });
+	});
+</script>
 {% endblock %}
