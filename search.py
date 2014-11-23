@@ -11,12 +11,11 @@ def get_genome(id):
     return request.text
 
 
-def search(search_term):
+def search(term):
     db = 'protein'
-    term = 'canis familiaris'
     terms = '?db={0}&term={1}&retmax=1&usehistory=y'.format(db, term)
     url = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi/{0}'.format(terms)
-    request = requests.get('{0}{1}'.format(url, search_term))
+    request = requests.get(url)
     xml = xmltodict.parse(request.text)
     # genome = get_genome(xml['eSearchResult']['IdList']['Id'])
     return xml
