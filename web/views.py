@@ -10,5 +10,5 @@ def index(request):
     return render(request, 'web/index.html', context)
 
 
-def get_protein(request):
+def search_sequence(request):
     pass
