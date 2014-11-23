@@ -3,22 +3,26 @@
 # Python Modules
 import requests
 import xmltodict
+import urllib
 
 
-def get_genome(id):
-    url = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?dbfrom=genome&db=nuccore&id='
-    request = requests.get('{0}{1}'.format(url, id))
-    return request.text
+def get_sequence(db, query_key, web_env):
+    terms = '?db={0}&query_key={1}&WebEnv={2}&rettype=fasta&retmode=text&retmax=1'.format(db, query_key, web_env)
+    url = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi/{0}'.format(terms)
+    response = urllib.request.urlopen(url)
+    return response.text
 
 
 def search(term):
     db = 'protein'
     terms = '?db={0}&term={1}&retmax=1&usehistory=y'.format(db, term)
     url = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi/{0}'.format(terms)
-    request = requests.get(url)
-    xml = xmltodict.parse(request.text)
-    # genome = get_genome(xml['eSearchResult']['IdList']['Id'])
-    return xml
+    response = requests.get(url)
+    xml = xmltodict.parse(response.text)
+    query_key = xml['eSearchResult']['QueryKey']
+    web_env = xml['eSearchResult']['WebEnv']
+    genome = get_sequence(db, query_key, web_env)
+    return genome
 
 if __name__ == '__main__':
     print('Organism Name: \n')
