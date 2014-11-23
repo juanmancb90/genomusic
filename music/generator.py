@@ -1,7 +1,8 @@
 import random
 
-from musical import Note, Scale
-from musical import save
+from musical.note import Note
+from musical.scale import Scale
+from musical.audio import save
 
 from .timeline import Hit, Timeline
 
