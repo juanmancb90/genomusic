@@ -1,0 +1,15 @@
+body {
+	background: #000;
+}
+
+.search-container {
+	width: 300px;
+	margin: 20px auto;
+}
+
+h3 {
+	left: 40%;
+	color: #fff;
+	margin: 7px auto;
+	font-family: 'Titillium Web', sans-serif;
+}
