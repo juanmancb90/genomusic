@@ -4,6 +4,9 @@ import xmltodict
 import urllib
 import json
 
+# Django Modules
+from django.utils.text import slugify
+
 # App Modules
 from music.generator import sampler
 
@@ -23,8 +26,8 @@ def search(term, db):
     query_key = xml['eSearchResult']['QueryKey']
     web_env = xml['eSearchResult']['WebEnv']
     genome = get_sequence(db, query_key, web_env)
-    data = sampler(genome)
-    return genome
+    data = sampler(genome, slugify(term))
+    return data
 
 if __name__ == '__main__':
     print('Organism Name: \n')
