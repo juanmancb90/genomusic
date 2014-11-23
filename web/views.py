@@ -15,5 +15,5 @@ def search_sequence(request):
     name = request.POST.get('name', None)
     db = request.POST.get('db', None)
     if name is None or db is None:
-        return HttpResponseBadRequest('error')
+        return HttpResponseBadRequest('Error: Missing fields.')
     return HttpResponse(search(name, db))
