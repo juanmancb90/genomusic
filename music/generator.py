@@ -1,9 +1,9 @@
 import random
 
-from musical.theory import Note, Scale
-from musical.audio import save
+from musical import Note, Scale
+from musical import save
 
-from timeline import Hit, Timeline
+from .timeline import Hit, Timeline
 
 
 def sampler(data, name):
