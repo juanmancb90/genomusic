@@ -1,5 +1,6 @@
 # Django Modules
 from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseBadRequest
 
 # App Modules
 from sequencer.utils import search
@@ -11,4 +12,8 @@ def index(request):
 
 
 def search_sequence(request):
-    pass
+    name = request.POST.get('name', None)
+    db = request.POST.get('db', None)
+    if name is None or db is None:
+        return HttpResponseBadRequest('error')
+    return HttpResponse(search(name, db))
